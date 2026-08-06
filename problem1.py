@@ -1,15 +1,19 @@
 n = int(input())
-arr = []
+intervals = []
 for i in range(n):
-    arr.append(list(map(int, input().split())))
-
-arr.sort(key=lambda x: x[0])
+    start, end = map(int, input().split())
+    intervals.append([start, end])
+intervals.sort()
 merged = []
-for interval in arr:
-    if not merged or merged[-1][1] < interval[0]:
-        merged.append(interval)
+for current in intervals:
+    if len(merged) == 0:
+        merged.append(current)
     else:
-        merged[-1][1] = max(merged[-1][1], interval[1])
-
+        last = merged[-1]
+        if current[0] <= last[1]:
+            if current[1] > last[1]:
+                last[1] = current[1]
+        else:
+            merged.append(current)
 for interval in merged:
     print(interval[0], interval[1])
